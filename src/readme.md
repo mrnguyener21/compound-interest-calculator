@@ -1,15 +1,11 @@
 https://www.investor.gov/financial-tools-calculators/calculators/compound-interest-calculator
 
-LAYOUT
--6 inputs within 4 steps(* means mandatory information)
--step 1: initial investment
-    -inputs: initial investment*
--step 2: contribute
-    -inputs: length of time in years*
--step 3: interst rate
-    -inputs: estimated interest rate*
--step 4: compound it
-    -reactselect: compound frequency(annually, semiannualy, monthly, daily)
+TO DO LIST
+-connect what we choose(monthly, annualy, etc) to the formulas
+-check to see if the formulas are correct
+-pass them to the chart
+-start creating the chart
+
 
 
 PROJECT LAYOUT

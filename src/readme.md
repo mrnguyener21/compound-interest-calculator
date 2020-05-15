@@ -2,6 +2,8 @@ https://www.investor.gov/financial-tools-calculators/calculators/compound-intere
 
 TO DO LIST
 -connect what we choose(monthly, annualy, etc) to the formulas
+    - so when if i choose annual, options will have the value of 1
+    - create a state for compoundRate, 
 -check to see if the formulas are correct
 -pass them to the chart
 -start creating the chart

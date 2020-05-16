@@ -2,24 +2,18 @@ import React, {useState} from 'react';
 import styles from './App.module.css';
 import Chart from './Chart';
 
-import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import NativeSelect from '@material-ui/core/NativeSelect';
 
 const App = () => {
   const [initialInvestment, setInitialInvestment]= useState('');
   const [years,setYears] =useState('');
   const [interestRate, setInterestRate] =useState('');
-  const [compoundRate, setCompoundRate] = useState('-')
+  const [compoundRate, setCompoundRate] = useState({rate:''})
 
-
-  // const compoundValues = [1,2,4,12]
-
-
-
+  
+  //formulas
   // const interestInDecimals = interestRate/100;
   // const totalInterest = (initialInvestment*interestInDecimals)*(compoundOptions*years);
   // const futureValueWithInterest = initialInvestment + totalInterest;
@@ -27,36 +21,16 @@ const App = () => {
   // const totalCompoundInterest = FuturevalueWithCompoundInterest - initialInvestment;
 
 
+  const handleChange = (event) => {
+    const name = event.target.name;
+    setCompoundRate({
+      ...compoundRate,
+      [name]: event.target.value,
+    });
+  };
+  //why doesn't it work if i take event.target.value out of the variable and place it on its own
 
-  // const useStyles = makeStyles((theme) => ({
-  //   formControl: {
-  //     margin: theme.spacing(1),
-  //     minWidth: 120,
-  //   },
-  //   selectEmpty: {
-  //     marginTop: theme.spacing(2),
-  //   },
-  // }));
-
-  // const NativeSelects = () => {
-  //   const classes = useStyles();
-  //   const [state, setState] = React.useState({
-  //     age: '',
-  //     name: 'hai',
-  //   });
   
-  //   const handleChange = (event) => {
-  //     const name = event.target.name;
-  //     setCompoundRate({
-  //       ...state,
-  //       [name]: event.target.value,
-  //     });
-  //   };
-  // }
-  
-
-
-
   return(
     <div>
       <div>
@@ -75,21 +49,18 @@ const App = () => {
         <button onClick={()=> console.log(compoundRate)}>check</button>
         <div>
             <p>STEP 4 COMPOUND IT</p>
-              {/* <Select placeholder={'Choose Compound Rate'} value={compoundRate} onChange={(e)=>setCompoundRate(e.target.value)}options={compoundOptions} */}
               <FormControl required ClassName={styles.compoundRateContainer}>
                 <InputLabel>Compound Rate</InputLabel>
                 <Select
                   native
-                  value={compoundRate}
-                  // onChange={setCompoundRate((e)=)}
-                  name="compoundRate"
-                  inputProps={{
-                    id: 'compoundRate',
-                  }}
+                  value={compoundRate.rate}
+                  onChange={handleChange}
+                  name="rate"
                 >
                   <option aria-label="None" value="" />
                   <option value={1}>Annual</option>
-                  <option value={4}>Semi-Annual</option>
+                  <option value={2}>Semi-Annual</option>
+                  <option value={4}>Quarterly</option>
                   <option value={12}>Monthly</option>
                 </Select>
               </FormControl>
@@ -97,7 +68,8 @@ const App = () => {
             </div>
             <Chart/>
         </div>
-  )
-}
+    )
+  }
+
 
 export default App;

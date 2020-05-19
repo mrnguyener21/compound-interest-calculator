@@ -8,64 +8,75 @@ import Select from '@material-ui/core/Select';
 
 const App = () => {
   const [initialInvestment, setInitialInvestment]= useState('');
-  const [years,setYears] =useState('');
+  const [yearsInvested,setYearsInvested] =useState('');
   const [interestRate, setInterestRate] =useState('');
-  const [compoundRate, setCompoundRate] = useState({rate:''})
+  const [compoundValue, setCompoundValue] = useState({rate:''})
 
   
-  //formulas
-  // const interestInDecimals = interestRate/100;
-  // const totalInterest = (initialInvestment*interestInDecimals)*(compoundOptions*years);
-  // const futureValueWithInterest = initialInvestment + totalInterest;
-  // const FuturevalueWithCompoundInterest =Math.pow(initialInvestment*(1+interestInDecimals/compoundOptions),compoundOptions.value*years);
-  // const totalCompoundInterest = FuturevalueWithCompoundInterest - initialInvestment;
+  //conversion 
+  const principal = parseInt(initialInvestment);
+  const interestInDecimals = (interestRate/100);
+  const years = parseInt(yearsInvested)
+  const compoundRate = parseInt(compoundValue.rate);
 
+  //formula for simple interest
+  const InterestTotal = (principal*interestInDecimals)*years;
+  const simpleTotal = principal + InterestTotal;
 
+  //formula for compound interest
+  const a = interestInDecimals / compoundRate;
+  const b = 1 + a;
+  const c = compoundRate * years;
+  const d = Math.pow(b, c);
+  const compoundTotal = (principal * d).toFixed(2);
+  const compoundInterestTotal = (compoundTotal - principal).toFixed(2);
+
+  
   const handleChange = (event) => {
     const name = event.target.name;
-    setCompoundRate({
-      ...compoundRate,
+    setCompoundValue({
+      ...compoundValue,
       [name]: event.target.value,
     });
   };
-  //why doesn't it work if i take event.target.value out of the variable and place it on its own
-
+  //why doesn't it work if i take event.target.value out of the constiable and place it on its own
+  
   
   return(
     <div>
+    <button onClick={()=> alert(`interest Total:${InterestTotal} simpleTotal:${simpleTotal} compound Interest Total${compoundInterestTotal} compound Total${compoundTotal}`)}>check</button>
       <div>
         <div>
-            <p>STEP 1 INITIAL INVESTMENT</p>
-            <input type={'text'} placeholder={'Inital Investment*'} value={initialInvestment}  onChange={(e)=>setInitialInvestment(e.target.value)} />
+          <p>STEP 1 INITIAL INVESTMENT</p>
+          <input type={'text'} placeholder={'Inital Investment*'} value={initialInvestment}  onChange={(e)=>setInitialInvestment(e.target.value)} />
         </div>
         <div>
             <p>STEP 2 CONTRIBUTE</p>
-=            <input type={'text'} placeholder={'Years Invested*'} value={years}  onChange ={(e)=>setYears(e.target.value)} />
+          <input type={'text'} placeholder={'years Invested*'} value={yearsInvested}  onChange ={(e)=>setYearsInvested(e.target.value)} />
         </div>
         <div>
-            <p>STEP 3 INTEREST RATE</p>
-            <input type={'text'} placeholder={'Interest Rate*'} value={interestRate} onChange={(e)=>setInterestRate(e.target.value)} />
+          <p>STEP 3 INTEREST RATE</p>
+          <input type={'text'} placeholder={'Interest Rate*'} value={interestRate} onChange={(e)=>setInterestRate(e.target.value)} />
         </div>
-        <button onClick={()=> console.log(compoundRate)}>check</button>
         <div>
-            <p>STEP 4 COMPOUND IT</p>
-              <FormControl required ClassName={styles.compoundRateContainer}>
-                <InputLabel>Compound Rate</InputLabel>
-                <Select
-                  native
-                  value={compoundRate.rate}
-                  onChange={handleChange}
-                  name="rate"
-                >
-                  <option aria-label="None" value="" />
-                  <option value={1}>Annual</option>
-                  <option value={2}>Semi-Annual</option>
-                  <option value={4}>Quarterly</option>
-                  <option value={12}>Monthly</option>
-                </Select>
-              </FormControl>
-              </div>    
-            </div>
+          <p>STEP 4 COMPOUND IT</p>
+            <FormControl required ClassName={styles.compoundValueContainer}>
+              <InputLabel>Compound Rate</InputLabel>
+              <Select
+                native
+                value={compoundValue.rate}
+                onChange={handleChange}
+                name="rate"
+              >
+                <option aria-label="None" value="" />
+                <option value={1}>Annual</option>
+                <option value={2}>Semi-Annual</option>
+                <option value={4}>Quarterly</option>
+                <option value={12}>Monthly</option>
+              </Select>
+            </FormControl>
+          </div>    
+      </div>
             <Chart/>
         </div>
     )

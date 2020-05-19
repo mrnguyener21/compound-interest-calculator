@@ -15,7 +15,7 @@ const App = () => {
   
   //conversion 
   const principal = parseInt(initialInvestment);
-  const interestInDecimals = (interestRate/100);
+  const interest = (interestRate/100);
   const years = parseInt(yearsInvested)
   const compoundRate = parseInt(compoundValue.rate);
 
@@ -23,21 +23,23 @@ const App = () => {
   //NEED TO MAKE THESE DYNAMIC WITH FOR LOOP TO GET DATA FOR EACH YEAR. FOR EACH ITERATION WE WILL WANT TO PUSH IT INTO AN EMPTY ARRAY, JK WE DON'T NEED TO PUSH TO AN EMPTY ARRAY IF WE JUST USE MAP FOR EACH ITERATION...LETS THINK THIS THROUGH
   //WE WILL ALSO WANT TO PUSH EACH ITERATION INTO AN EMPTY ARRAY SO THAT OUR LABELS CAN BE DYNAMIC AS WELL
   //formula for simple interest
-  const totalWIthInterest = [];
+  const totalWithInterest = [principal];
 
   for (let i = 1; i < years+1; i++) {
-    totalWIthInterest.push(principal+(principal*interestInDecimals)*i)
+    totalWithInterest.push(principal+(principal*interest)*i)
   }
 
   //formula for compound interest
   //pretty sure if i put all variables in a for loop and replace the years with i, it should be good
-  const totalWIthCompoundInterst = [];
+  const totalWithCompoundInterst = [principal];
+  const arrayOfYears =[0]
   for (let i = 1; i < years+1; i++) {
-    const a = interestInDecimals / compoundRate;
+    const a = interest / compoundRate;
     const b = 1 + a;
     const c = compoundRate * i;
     const d = Math.pow(b, c);
-     totalWIthCompoundInterst.push((principal * d).toFixed(2));
+     totalWithCompoundInterst.push((principal * d).toFixed(2));
+     arrayOfYears.push(i);
     
   }
 
@@ -49,11 +51,9 @@ const App = () => {
       [name]: event.target.value,
     });
   };  
-  const months =['January', 'February', 'March', 'April', 'May', 'June', 'September']
 
   return(
     <div>
-    <button onClick={()=> alert(totalWIthCompoundInterst)}>check</button>
       <div>
         <div>
           <p>STEP 1 INITIAL INVESTMENT</p>
@@ -86,7 +86,7 @@ const App = () => {
             </FormControl>
           </div>    
       </div>
-            <Chart months={months} totalWIthInterest={totalWIthInterest} />
+            <Chart totalWithInterest={totalWithInterest} totalWithCompoundInterst={totalWithCompoundInterst} principal={principal} years={years} interest={interest} compoundRate={compoundRate} arrayOfYears={arrayOfYears} />
         </div>
     )
   }

@@ -19,32 +19,41 @@ const App = () => {
   const years = parseInt(yearsInvested)
   const compoundRate = parseInt(compoundValue.rate);
 
+
+  //NEED TO MAKE THESE DYNAMIC WITH FOR LOOP TO GET DATA FOR EACH YEAR. FOR EACH ITERATION WE WILL WANT TO PUSH IT INTO AN EMPTY ARRAY, JK WE DON'T NEED TO PUSH TO AN EMPTY ARRAY IF WE JUST USE MAP FOR EACH ITERATION...LETS THINK THIS THROUGH
+  //WE WILL ALSO WANT TO PUSH EACH ITERATION INTO AN EMPTY ARRAY SO THAT OUR LABELS CAN BE DYNAMIC AS WELL
   //formula for simple interest
-  const InterestTotal = (principal*interestInDecimals)*years;
-  const simpleTotal = principal + InterestTotal;
+  const totalWIthInterest = [];
+
+  for (let i = 1; i < years+1; i++) {
+    totalWIthInterest.push(principal+(principal*interestInDecimals)*i)
+  }
 
   //formula for compound interest
-  const a = interestInDecimals / compoundRate;
-  const b = 1 + a;
-  const c = compoundRate * years;
-  const d = Math.pow(b, c);
-  const compoundTotal = (principal * d).toFixed(2);
-  const compoundInterestTotal = (compoundTotal - principal).toFixed(2);
+  //pretty sure if i put all variables in a for loop and replace the years with i, it should be good
+  const totalWIthCompoundInterst = [];
+  for (let i = 1; i < years+1; i++) {
+    const a = interestInDecimals / compoundRate;
+    const b = 1 + a;
+    const c = compoundRate * i;
+    const d = Math.pow(b, c);
+     totalWIthCompoundInterst.push((principal * d).toFixed(2));
+    
+  }
 
-  
+  //to correctly pass the values based on which compound rate is chosen
   const handleChange = (event) => {
     const name = event.target.name;
     setCompoundValue({
       ...compoundValue,
       [name]: event.target.value,
     });
-  };
-  //why doesn't it work if i take event.target.value out of the constiable and place it on its own
-  
-  
+  };  
+  const months =['January', 'February', 'March', 'April', 'May', 'June', 'September']
+
   return(
     <div>
-    <button onClick={()=> alert(`interest Total:${InterestTotal} simpleTotal:${simpleTotal} compound Interest Total${compoundInterestTotal} compound Total${compoundTotal}`)}>check</button>
+    <button onClick={()=> alert(totalWIthCompoundInterst)}>check</button>
       <div>
         <div>
           <p>STEP 1 INITIAL INVESTMENT</p>
@@ -77,7 +86,7 @@ const App = () => {
             </FormControl>
           </div>    
       </div>
-            <Chart/>
+            <Chart months={months} totalWIthInterest={totalWIthInterest} />
         </div>
     )
   }
